@@ -1,4 +1,4 @@
-const { calculateDiscount, filterProducts, sort } = require('../inventoryFunctions.js');
+const { calculateDiscount, filterProducts, sort, sortInventory } = require('../inventoryFunctions.js');
 
 describe('calculateDiscount', () => {
 
@@ -16,20 +16,42 @@ describe('calculateDiscount', () => {
 });
 
 describe('filterProducts', () => {
+
+    let products;
+
+  beforeEach(() => {
+    products = [
+      { name: "TV", price: 800 },
+      { name: "Speaker", price: 150 },
+      { name: "USB Cable", price: 10 }
+    ];
+  });
+
     test("should return array of filtered products", () => {
-        let products = [
-  { name: "TV", price: 800 },
-  { name: "Speaker", price: 150 },
-  { name: "USB Cable", price: 10 }
-];
             expect(filterProducts(products, p => p.price >= 100 && p.price <= 500)).toEqual([{name: "Speaker", price: 150}]);
     });
     test("should return undefined if non listed item is entered", () => {
-        let products = [
-  { name: "TV", price: 800 },
-  { name: "Speaker", price: 150 },
-  { name: "USB Cable", price: 10 }
-];
             expect(filterProducts(products, p => !p.name)).toEqual(undefined);
+    })
+});
+
+describe('sortInventory', () => {
+
+    let products;
+
+  beforeEach(() => {
+    products = [
+      { name: "TV", price: 800 },
+      { name: "Speaker", price: 150 },
+      { name: "USB Cable", price: 10 }
+    ];
+  });
+
+    test("should sort inventory by key.", () => {
+        expect(sortInventory(products, "name")).toEqual([
+         { name: "Speaker", price: 150 },
+         { name: "TV", price: 800 },
+         { name: "USB Cable", price: 10 } 
+        ])
     })
 });
